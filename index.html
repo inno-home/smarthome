@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Inno Home">
 <meta name="theme-color" content="#F5F0E8">
-<title>Inno Home · Smart Home v2.9</title>
+<title>Inno Home · Smart Home v2.9.1</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Prompt:wght@300;400;500;600&family=Sarabun:wght@300;400;500&display=swap');
 :root{
@@ -121,8 +121,7 @@ body{background:var(--cream);color:var(--text);font-family:'Prompt','Sarabun',sa
 
 /* ===== PAGES ===== */
 .page{ display:none; }
-.page.active{ display:block; }
-#page-home{ display:block; }
+#page-log, #page-camera, #page-settings{ display:none; }
 
 /* ===== CAMERA PAGE ===== */
 .cam-wrap{
@@ -323,10 +322,7 @@ body{background:var(--cream);color:var(--text);font-family:'Prompt','Sarabun',sa
 <div class="sec-title" id="deviceTitle">🔌 ทั้งบ้าน — อุปกรณ์ทั้งหมด</div>
 <div class="devices-wrap"><div class="devices-grid" id="deviceGrid"></div></div>
 </div>
-<!-- PAGE: HOME (เดิม) -->
-<div id="page-home" class="page active">
-  <!-- content เดิมทั้งหมดย้ายมาอยู่ที่นี่ผ่าน JS -->
-</div>
+<!-- PAGE: HOME placeholder (ใช้ .main แทน) -->
 
 <!-- PAGE: LOG -->
 <div id="page-log" class="page">
@@ -514,18 +510,21 @@ function toggle(id){const d=allDevices.find(x=>x.id===id);if(!d)return;d.on=!d.o
 // ============================================================
 // 📄 PAGE NAVIGATION
 // ============================================================
-const mainContent = document.querySelector('.main');
+// pages initialized on nav click
 
 function showPage(page, btn) {
-  // hide all pages
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-
-  // show main content only for home
-  if(mainContent) mainContent.style.display = page === 'home' ? 'block' : 'none';
-
-  document.getElementById('page-' + page)?.classList.add('active');
   if(btn) btn.classList.add('active');
+
+  // ซ่อน/แสดง main content (หน้าหลัก)
+  const mainEl = document.querySelector('.main');
+  if(mainEl) mainEl.style.display = page === 'home' ? 'block' : 'none';
+
+  // ซ่อนทุก page แล้วแสดงเฉพาะที่เลือก
+  ['log','camera','settings'].forEach(p => {
+    const el = document.getElementById('page-' + p);
+    if(el) el.style.display = (p === page) ? 'block' : 'none';
+  });
 
   if(page === 'log') renderLog();
   if(page === 'settings') loadSettings();
@@ -798,18 +797,21 @@ function setScene(scene,btn){
 // ============================================================
 // 📄 PAGE NAVIGATION
 // ============================================================
-const mainContent = document.querySelector('.main');
+// pages initialized on nav click
 
 function showPage(page, btn) {
-  // hide all pages
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-
-  // show main content only for home
-  if(mainContent) mainContent.style.display = page === 'home' ? 'block' : 'none';
-
-  document.getElementById('page-' + page)?.classList.add('active');
   if(btn) btn.classList.add('active');
+
+  // ซ่อน/แสดง main content (หน้าหลัก)
+  const mainEl = document.querySelector('.main');
+  if(mainEl) mainEl.style.display = page === 'home' ? 'block' : 'none';
+
+  // ซ่อนทุก page แล้วแสดงเฉพาะที่เลือก
+  ['log','camera','settings'].forEach(p => {
+    const el = document.getElementById('page-' + p);
+    if(el) el.style.display = (p === page) ? 'block' : 'none';
+  });
 
   if(page === 'log') renderLog();
   if(page === 'settings') loadSettings();
@@ -1066,18 +1068,21 @@ function allOff(){allDevices.forEach(d=>{if(d.id!=='fridge')d.on=false;});showTo
 // ============================================================
 // 📄 PAGE NAVIGATION
 // ============================================================
-const mainContent = document.querySelector('.main');
+// pages initialized on nav click
 
 function showPage(page, btn) {
-  // hide all pages
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-
-  // show main content only for home
-  if(mainContent) mainContent.style.display = page === 'home' ? 'block' : 'none';
-
-  document.getElementById('page-' + page)?.classList.add('active');
   if(btn) btn.classList.add('active');
+
+  // ซ่อน/แสดง main content (หน้าหลัก)
+  const mainEl = document.querySelector('.main');
+  if(mainEl) mainEl.style.display = page === 'home' ? 'block' : 'none';
+
+  // ซ่อนทุก page แล้วแสดงเฉพาะที่เลือก
+  ['log','camera','settings'].forEach(p => {
+    const el = document.getElementById('page-' + p);
+    if(el) el.style.display = (p === page) ? 'block' : 'none';
+  });
 
   if(page === 'log') renderLog();
   if(page === 'settings') loadSettings();
@@ -1346,18 +1351,21 @@ function voiceCmd(cmd){
 // ============================================================
 // 📄 PAGE NAVIGATION
 // ============================================================
-const mainContent = document.querySelector('.main');
+// pages initialized on nav click
 
 function showPage(page, btn) {
-  // hide all pages
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-
-  // show main content only for home
-  if(mainContent) mainContent.style.display = page === 'home' ? 'block' : 'none';
-
-  document.getElementById('page-' + page)?.classList.add('active');
   if(btn) btn.classList.add('active');
+
+  // ซ่อน/แสดง main content (หน้าหลัก)
+  const mainEl = document.querySelector('.main');
+  if(mainEl) mainEl.style.display = page === 'home' ? 'block' : 'none';
+
+  // ซ่อนทุก page แล้วแสดงเฉพาะที่เลือก
+  ['log','camera','settings'].forEach(p => {
+    const el = document.getElementById('page-' + p);
+    if(el) el.style.display = (p === page) ? 'block' : 'none';
+  });
 
   if(page === 'log') renderLog();
   if(page === 'settings') loadSettings();
@@ -1726,18 +1734,21 @@ function processVoiceText(text){
 // ============================================================
 // 📄 PAGE NAVIGATION
 // ============================================================
-const mainContent = document.querySelector('.main');
+// pages initialized on nav click
 
 function showPage(page, btn) {
-  // hide all pages
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-
-  // show main content only for home
-  if(mainContent) mainContent.style.display = page === 'home' ? 'block' : 'none';
-
-  document.getElementById('page-' + page)?.classList.add('active');
   if(btn) btn.classList.add('active');
+
+  // ซ่อน/แสดง main content (หน้าหลัก)
+  const mainEl = document.querySelector('.main');
+  if(mainEl) mainEl.style.display = page === 'home' ? 'block' : 'none';
+
+  // ซ่อนทุก page แล้วแสดงเฉพาะที่เลือก
+  ['log','camera','settings'].forEach(p => {
+    const el = document.getElementById('page-' + p);
+    if(el) el.style.display = (p === page) ? 'block' : 'none';
+  });
 
   if(page === 'log') renderLog();
   if(page === 'settings') loadSettings();
@@ -2023,18 +2034,21 @@ renderDevices();updateEnergy();
 // ============================================================
 // 📄 PAGE NAVIGATION
 // ============================================================
-const mainContent = document.querySelector('.main');
+// pages initialized on nav click
 
 function showPage(page, btn) {
-  // hide all pages
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-
-  // show main content only for home
-  if(mainContent) mainContent.style.display = page === 'home' ? 'block' : 'none';
-
-  document.getElementById('page-' + page)?.classList.add('active');
   if(btn) btn.classList.add('active');
+
+  // ซ่อน/แสดง main content (หน้าหลัก)
+  const mainEl = document.querySelector('.main');
+  if(mainEl) mainEl.style.display = page === 'home' ? 'block' : 'none';
+
+  // ซ่อนทุก page แล้วแสดงเฉพาะที่เลือก
+  ['log','camera','settings'].forEach(p => {
+    const el = document.getElementById('page-' + p);
+    if(el) el.style.display = (p === page) ? 'block' : 'none';
+  });
 
   if(page === 'log') renderLog();
   if(page === 'settings') loadSettings();
@@ -2300,4 +2314,5 @@ function toggle(id) {
   v2.7 - เชื่อม Apps Script URL จริง
   v2.8 - Optimize สำหรับ Android/iOS เต็มจอ
   v2.9 - เพิ่ม Face/Pet AI Camera + Settings + Log page
+  v2.9.1 - แก้ bug หน้าตั้งค่า/รายงาน/กล้องไม่แสดง
 ========================================== -->
