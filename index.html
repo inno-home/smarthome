@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Inno Home">
 <meta name="theme-color" content="#F5F0E8">
-<title>Inno Home · Smart Home v2.8</title>
+<title>Inno Home · Smart Home v2.9</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Prompt:wght@300;400;500;600&family=Sarabun:wght@300;400;500&display=swap');
 :root{
@@ -119,6 +119,143 @@ body{background:var(--cream);color:var(--text);font-family:'Prompt','Sarabun',sa
 .mic-listening #micBtn{background:var(--warn)!important;box-shadow:0 0 0 8px rgba(192,113,74,0.2),0 4px 16px rgba(192,113,74,0.4)!important;animation:micPulse 1s infinite;}
 @keyframes micPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 
+/* ===== PAGES ===== */
+.page{ display:none; }
+.page.active{ display:block; }
+#page-home{ display:block; }
+
+/* ===== CAMERA PAGE ===== */
+.cam-wrap{
+  padding:16px;
+  display:flex;flex-direction:column;gap:12px;
+}
+.cam-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.4rem;font-weight:600;color:var(--dark);
+  margin-bottom:2px;
+}
+.cam-sub{ font-size:0.72rem;color:var(--sub); }
+.cam-video-wrap{
+  position:relative;width:100%;
+  border-radius:var(--radius);overflow:hidden;
+  background:#1a1a1a;aspect-ratio:4/3;
+  border:2px solid var(--cream2);
+}
+#camVideo{width:100%;height:100%;object-fit:cover;display:block;}
+.cam-overlay{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:8px;
+  background:rgba(44,36,22,0.6);
+  color:var(--cream);font-size:0.85rem;
+}
+.cam-scan-frame{
+  position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  width:180px;height:180px;
+  border:2px solid rgba(200,169,110,0.8);
+  border-radius:16px;
+  box-shadow:0 0 0 9999px rgba(0,0,0,0.3);
+  pointer-events:none;
+}
+.cam-corner{
+  position:absolute;width:20px;height:20px;
+  border-color:var(--gold);border-style:solid;
+}
+.cam-corner.tl{top:-2px;left:-2px;border-width:3px 0 0 3px;border-radius:4px 0 0 0;}
+.cam-corner.tr{top:-2px;right:-2px;border-width:3px 3px 0 0;border-radius:0 4px 0 0;}
+.cam-corner.bl{bottom:-2px;left:-2px;border-width:0 0 3px 3px;border-radius:0 0 0 4px;}
+.cam-corner.br{bottom:-2px;right:-2px;border-width:0 3px 3px 0;border-radius:0 0 4px 0;}
+.cam-scanning .cam-scan-frame::after{
+  content:'';position:absolute;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  animation:scanLine 1.5s infinite;top:0;
+}
+@keyframes scanLine{0%{top:0}100%{top:100%}}
+
+.cam-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.cam-btn{
+  padding:14px;border-radius:var(--radius-sm);
+  border:1.5px solid var(--cream2);
+  background:var(--card);font-family:'Prompt',sans-serif;
+  font-size:0.8rem;color:var(--dark);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all 0.2s;box-shadow:0 2px 8px var(--shadow);
+  touch-action:manipulation;
+}
+.cam-btn.active-btn{background:var(--dark);color:var(--cream);border-color:var(--dark);}
+.cam-btn:active{transform:scale(0.97);}
+.cam-result{
+  background:var(--card);border-radius:var(--radius);
+  padding:16px;border:1.5px solid var(--cream2);
+  box-shadow:0 2px 8px var(--shadow);min-height:80px;
+}
+.cam-result-title{font-size:0.65rem;color:var(--wood);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;}
+.cam-result-content{font-size:0.85rem;color:var(--dark);line-height:1.6;}
+.cam-result-content.loading{color:var(--sub);font-style:italic;}
+.cam-result-content.success{color:var(--on);}
+.cam-result-content.warn{color:var(--warn);}
+.result-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--card2);border-radius:50px;
+  padding:4px 12px;font-size:0.75rem;margin:2px;
+  border:1px solid var(--cream2);
+}
+
+/* ===== SETTINGS PAGE ===== */
+.settings-wrap{ padding:16px;display:flex;flex-direction:column;gap:14px; }
+.settings-card{
+  background:var(--card);border-radius:var(--radius);
+  padding:18px;border:1.5px solid var(--cream2);
+  box-shadow:0 2px 8px var(--shadow);
+}
+.settings-card-title{
+  font-size:0.7rem;color:var(--wood);
+  letter-spacing:0.12em;text-transform:uppercase;
+  font-weight:500;margin-bottom:12px;
+}
+.settings-field{ margin-bottom:10px; }
+.settings-label{ font-size:0.75rem;color:var(--sub);margin-bottom:5px;display:block; }
+.settings-input{
+  width:100%;padding:10px 14px;
+  border-radius:var(--radius-sm);
+  border:1.5px solid var(--cream2);
+  background:var(--cream);
+  font-family:'Prompt',sans-serif;font-size:0.82rem;
+  color:var(--dark);outline:none;
+  transition:border-color 0.2s;
+}
+.settings-input:focus{ border-color:var(--wood); }
+.settings-save{
+  width:100%;padding:13px;
+  background:var(--dark);border:none;
+  border-radius:var(--radius-sm);
+  color:var(--cream);font-family:'Prompt',sans-serif;
+  font-size:0.85rem;cursor:pointer;
+  box-shadow:0 2px 8px rgba(44,36,22,0.2);
+  touch-action:manipulation;
+}
+.settings-save:active{opacity:0.85;}
+.settings-version{text-align:center;font-size:0.68rem;color:var(--sub);margin-top:4px;}
+
+/* ===== LOG PAGE ===== */
+.log-wrap{ padding:16px;display:flex;flex-direction:column;gap:12px; }
+.log-card{
+  background:var(--card);border-radius:var(--radius);
+  padding:16px;border:1.5px solid var(--cream2);
+  box-shadow:0 2px 8px var(--shadow);
+}
+.log-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 0;border-bottom:1px solid var(--cream2);
+  font-size:0.78rem;
+}
+.log-row:last-child{border-bottom:none;}
+.log-type{font-size:0.65rem;color:var(--sub);}
+.log-time{font-size:0.65rem;color:var(--sub);}
+.log-detail{font-weight:500;color:var(--dark);}
+.log-empty{text-align:center;color:var(--sub);font-size:0.8rem;padding:20px;}
+
 /* ===== RESPONSIVE SMALL SCREEN ===== */
 @media(max-width:360px){
   .hero-title h1{font-size:1.4rem;}
@@ -186,12 +323,126 @@ body{background:var(--cream);color:var(--text);font-family:'Prompt','Sarabun',sa
 <div class="sec-title" id="deviceTitle">🔌 ทั้งบ้าน — อุปกรณ์ทั้งหมด</div>
 <div class="devices-wrap"><div class="devices-grid" id="deviceGrid"></div></div>
 </div>
+<!-- PAGE: HOME (เดิม) -->
+<div id="page-home" class="page active">
+  <!-- content เดิมทั้งหมดย้ายมาอยู่ที่นี่ผ่าน JS -->
+</div>
+
+<!-- PAGE: LOG -->
+<div id="page-log" class="page">
+  <div class="log-wrap">
+    <div class="sec-label" style="padding:4px 0 10px;">📊 ประวัติการใช้งาน</div>
+    <div class="log-card">
+      <div id="logList"><div class="log-empty">ยังไม่มีข้อมูล<br>เริ่มใช้งานระบบก่อนนะครับ</div></div>
+    </div>
+    <button class="settings-save" style="background:var(--warn);" onclick="clearLog()">🗑️ ล้างประวัติ</button>
+  </div>
+</div>
+
+<!-- PAGE: CAMERA (Face & Pet AI) -->
+<div id="page-camera" class="page">
+  <div class="cam-wrap">
+    <div>
+      <div class="cam-title">กล้อง AI 📷</div>
+      <div class="cam-sub">จำหน้าคน · จำสัตว์เลี้ยง · วิเคราะห์ภาพ</div>
+    </div>
+
+    <!-- Video Preview -->
+    <div class="cam-video-wrap" id="camWrap">
+      <video id="camVideo" autoplay playsinline muted></video>
+      <div class="cam-scan-frame">
+        <div class="cam-corner tl"></div>
+        <div class="cam-corner tr"></div>
+        <div class="cam-corner bl"></div>
+        <div class="cam-corner br"></div>
+      </div>
+      <div class="cam-overlay" id="camOverlay">
+        <div style="font-size:2rem;">📷</div>
+        <div>กดเปิดกล้องเพื่อเริ่ม</div>
+      </div>
+    </div>
+
+    <!-- Mode Buttons -->
+    <div class="cam-btns">
+      <button class="cam-btn" id="btnFace" onclick="setMode('face')">👤 จำหน้าคน</button>
+      <button class="cam-btn" id="btnPet"  onclick="setMode('pet')">🐾 จำสัตว์เลี้ยง</button>
+      <button class="cam-btn" id="btnObj"  onclick="setMode('object')">🔍 วิเคราะห์ภาพ</button>
+      <button class="cam-btn" id="btnCam"  onclick="toggleCamera()">📷 เปิดกล้อง</button>
+    </div>
+
+    <!-- Capture & Analyze -->
+    <button class="settings-save" id="btnCapture" onclick="captureAndAnalyze()" style="display:none;">
+      🔍 ถ่ายภาพ & วิเคราะห์
+    </button>
+
+    <!-- Result -->
+    <div class="cam-result">
+      <div class="cam-result-title">ผลการวิเคราะห์</div>
+      <div class="cam-result-content" id="camResultText">รอการสแกน...</div>
+    </div>
+
+    <!-- Registered Faces -->
+    <div class="settings-card">
+      <div class="settings-card-title">👤 บุคคลที่ลงทะเบียน</div>
+      <div id="registeredList" style="font-size:0.8rem;color:var(--sub);">ยังไม่มีข้อมูล</div>
+      <button class="cam-btn" style="width:100%;margin-top:10px;" onclick="registerFace()">➕ ลงทะเบียนหน้าคนปัจจุบัน</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: SETTINGS -->
+<div id="page-settings" class="page">
+  <div class="settings-wrap">
+    <div class="settings-card">
+      <div class="settings-card-title">🔑 Gemini API Key</div>
+      <div class="settings-field">
+        <label class="settings-label">API Key (เก็บในมือถือเท่านั้น ไม่ส่งที่ไหน)</label>
+        <input class="settings-input" id="inputApiKey" type="password" placeholder="AIza...">
+      </div>
+      <button class="settings-save" onclick="saveApiKey()">💾 บันทึก API Key</button>
+    </div>
+
+    <div class="settings-card">
+      <div class="settings-card-title">🏠 ข้อมูลบ้าน</div>
+      <div class="settings-field">
+        <label class="settings-label">ชื่อบ้าน</label>
+        <input class="settings-input" id="inputHomeName" placeholder="Inno Home">
+      </div>
+      <div class="settings-field">
+        <label class="settings-label">ที่อยู่</label>
+        <input class="settings-input" id="inputAddress" placeholder="ขอนแก่น">
+      </div>
+      <button class="settings-save" onclick="saveHomeInfo()">💾 บันทึกข้อมูลบ้าน</button>
+    </div>
+
+    <div class="settings-card">
+      <div class="settings-card-title">📊 Google Sheet</div>
+      <div class="settings-field">
+        <label class="settings-label">Apps Script URL</label>
+        <input class="settings-input" id="inputSheetUrl" type="url" placeholder="https://script.google.com/...">
+      </div>
+      <button class="settings-save" onclick="saveSheetUrl()">💾 บันทึก Sheet URL</button>
+    </div>
+
+    <div class="settings-card" style="text-align:center;">
+      <div class="settings-card-title">ℹ️ เกี่ยวกับ App</div>
+      <div style="font-size:1.6rem;margin-bottom:8px;">🏠</div>
+      <div style="font-size:1rem;font-weight:600;color:var(--dark);">Inno Home</div>
+      <div style="font-size:0.75rem;color:var(--sub);margin-top:4px;">Smart Home · v2.9</div>
+      <div style="font-size:0.68rem;color:var(--sub);margin-top:8px;line-height:1.6;">
+        Powered by Gemini AI · Web Speech API<br>
+        © 2026 Inno Home · thapanat.bon@gmail.com
+      </div>
+    </div>
+  </div>
+</div>
+
 <button class="voice-fab" onclick="openVoiceModal()">🎙️</button>
 <div class="bottom-nav">
-  <button class="nav-btn active" onclick="navClick(this)"><span class="nav-icon">🏠</span><span class="nav-label">หน้าหลัก</span></button>
-  <button class="nav-btn" onclick="navClick(this)"><span class="nav-icon">📊</span><span class="nav-label">รายงาน</span></button>
-  <button class="nav-btn" onclick="navClick(this)"><span class="nav-icon">👤</span><span class="nav-label">บุคคล</span></button>
-  <button class="nav-btn" onclick="navClick(this)"><span class="nav-icon">⚙️</span><span class="nav-label">ตั้งค่า</span></button>
+  <button class="nav-btn active" id="nav-home"   onclick="showPage('home',this)"><span class="nav-icon">🏠</span><span class="nav-label">หน้าหลัก</span></button>
+  <button class="nav-btn"        id="nav-log"    onclick="showPage('log',this)"><span class="nav-icon">📊</span><span class="nav-label">รายงาน</span></button>
+  <button class="nav-btn"        id="nav-camera" onclick="showPage('camera',this)"><span class="nav-icon">📷</span><span class="nav-label">กล้อง AI</span></button>
+  <button class="nav-btn"        id="nav-settings" onclick="showPage('settings',this)"><span class="nav-icon">⚙️</span><span class="nav-label">ตั้งค่า</span></button>
 </div>
 <div class="modal-overlay" id="voiceModal" onclick="closeModal(event)">
   <div class="modal-sheet">
@@ -258,7 +509,273 @@ function deviceHTML(d){
   return `<div class="device-card ${on}" id="card-${d.id}" onclick="toggle('${d.id}')"><div class="toggle-pill"></div><div class="device-icon-wrap">${d.icon}</div><div class="device-name">${d.name}</div><div class="device-status">${st}</div></div>`;
 }
 function statusText(d){if(!d.on)return'ปิดอยู่';if(d.type==='ac')return`เปิด · ${d.temp}°C`;if(d.type==='light')return`สว่าง ${d.dim}%`;const m={fridge:'ทำงานปกติ',heater:'พร้อมใช้',coffee:'พร้อมชง'};return m[d.id]||'เปิดอยู่';}
-function toggle(id){const d=allDevices.find(x=>x.id===id);if(!d)return;d.on=!d.on;showToast(d.on?`✅ เปิด ${d.name}`:`⭕ ปิด ${d.name}`);renderDevices();updateEnergy();}
+function toggle(id){const d=allDevices.find(x=>x.id===id);if(!d)return;d.on=!d.on;showToast(d.on?`✅ เปิด ${d.name}`:`⭕ ปิด ${d.name}`);renderDevices();updateEnergy();
+
+// ============================================================
+// 📄 PAGE NAVIGATION
+// ============================================================
+const mainContent = document.querySelector('.main');
+
+function showPage(page, btn) {
+  // hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+  // show main content only for home
+  if(mainContent) mainContent.style.display = page === 'home' ? 'block' : 'none';
+
+  document.getElementById('page-' + page)?.classList.add('active');
+  if(btn) btn.classList.add('active');
+
+  if(page === 'log') renderLog();
+  if(page === 'settings') loadSettings();
+  if(page === 'camera') initCameraPage();
+}
+
+// ============================================================
+// 📷 B — FACE & PET RECOGNITION (Gemini Vision)
+// ============================================================
+let camStream = null;
+let camMode = 'face';
+let cameraOpen = false;
+let registeredFaces = JSON.parse(localStorage.getItem('ih_faces') || '[]');
+let registeredPets  = JSON.parse(localStorage.getItem('ih_pets')  || '[]');
+
+function initCameraPage() {
+  renderRegistered();
+  loadSettings();
+}
+
+function setMode(mode) {
+  camMode = mode;
+  document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active-btn'));
+  const map = {face:'btnFace', pet:'btnPet', object:'btnObj'};
+  if(map[mode]) document.getElementById(map[mode])?.classList.add('active-btn');
+  const labels = {face:'จำหน้าคน', pet:'จำสัตว์เลี้ยง', object:'วิเคราะห์ภาพทั่วไป'};
+  setResult('เลือกโหมด: ' + (labels[mode]||mode) + ' — กดถ่ายภาพได้เลย', '');
+}
+
+function toggleCamera() {
+  if(cameraOpen) { stopCamera(); return; }
+  startCamera();
+}
+
+async function startCamera() {
+  try {
+    camStream = await navigator.mediaDevices.getUserMedia({
+      video:{ facingMode:'user', width:{ideal:640}, height:{ideal:480} },
+      audio:false
+    });
+    const video = document.getElementById('camVideo');
+    video.srcObject = camStream;
+    document.getElementById('camOverlay').style.display = 'none';
+    document.getElementById('btnCam').textContent = '⏹️ ปิดกล้อง';
+    document.getElementById('btnCam').classList.add('active-btn');
+    document.getElementById('btnCapture').style.display = 'block';
+    document.getElementById('camWrap').classList.add('cam-scanning');
+    cameraOpen = true;
+  } catch(err) {
+    setResult('❌ ไม่สามารถเปิดกล้องได้: ' + err.message, 'warn');
+  }
+}
+
+function stopCamera() {
+  if(camStream) { camStream.getTracks().forEach(t => t.stop()); camStream = null; }
+  const video = document.getElementById('camVideo');
+  video.srcObject = null;
+  document.getElementById('camOverlay').style.display = 'flex';
+  document.getElementById('btnCam').textContent = '📷 เปิดกล้อง';
+  document.getElementById('btnCam').classList.remove('active-btn');
+  document.getElementById('btnCapture').style.display = 'none';
+  document.getElementById('camWrap').classList.remove('cam-scanning');
+  cameraOpen = false;
+}
+
+function captureFrame() {
+  const video = document.getElementById('camVideo');
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth || 640;
+  canvas.height = video.videoHeight || 480;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  return canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+}
+
+async function captureAndAnalyze() {
+  const apiKey = localStorage.getItem('ih_gemini_key');
+  if(!apiKey) {
+    setResult('❌ ยังไม่ได้ใส่ Gemini API Key — ไปที่ ⚙️ ตั้งค่า ก่อนครับ', 'warn');
+    return;
+  }
+  if(!cameraOpen) { setResult('❌ กรุณาเปิดกล้องก่อน', 'warn'); return; }
+
+  setResult('🔍 กำลังวิเคราะห์...', 'loading');
+
+  const base64 = captureFrame();
+  const prompts = {
+    face: buildFacePrompt(),
+    pet:  buildPetPrompt(),
+    object: 'วิเคราะห์ภาพนี้เป็นภาษาไทย บอกว่ามีอะไรในภาพ มีคนหรือสัตว์ไหม ถ้ามีให้อธิบายลักษณะ ตอบสั้นๆ ไม่เกิน 3 บรรทัด'
+  };
+
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    const res = await fetch(url, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        contents:[{ parts:[
+          { text: prompts[camMode] },
+          { inline_data:{ mime_type:'image/jpeg', data:base64 } }
+        ]}],
+        generationConfig:{ temperature:0.1, maxOutputTokens:300 }
+      })
+    });
+    const data = await res.json();
+    if(data.error) { setResult('❌ Gemini Error: ' + data.error.message, 'warn'); return; }
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'ไม่มีผล';
+    setResult(text, 'success');
+    logToSheet('camera', camMode + ': ' + text.substring(0,50));
+    addLog('📷 ' + (camMode==='face'?'จำหน้าคน':camMode==='pet'?'จำสัตว์':'วิเคราะห์ภาพ'), text.substring(0,60));
+  } catch(err) {
+    setResult('❌ เกิดข้อผิดพลาด: ' + err.message, 'warn');
+  }
+}
+
+function buildFacePrompt() {
+  const names = registeredFaces.map(f => `- ${f.name}: ${f.desc}`).join('
+');
+  const base = 'ดูภาพนี้แล้วตอบเป็นภาษาไทย:
+1. มีคนในภาพไหม?
+2. ถ้ามี บอกลักษณะ เพศ อายุโดยประมาณ สีผม
+3. ตอบสั้นๆ ไม่เกิน 3 บรรทัด';
+  if(names) return base + '
+
+บุคคลที่ลงทะเบียนไว้:
+' + names + '
+ถ้าตรงกับลักษณะใครให้บอกชื่อด้วย';
+  return base;
+}
+
+function buildPetPrompt() {
+  const names = registeredPets.map(p => `- ${p.name}: ${p.desc}`).join('
+');
+  const base = 'ดูภาพนี้แล้วตอบเป็นภาษาไทย:
+1. มีสัตว์เลี้ยงในภาพไหม?
+2. ถ้ามี บอกประเภท (สุนัข/แมว) สายพันธุ์โดยประมาณ สี ลักษณะ
+3. ตอบสั้นๆ ไม่เกิน 3 บรรทัด';
+  if(names) return base + '
+
+สัตว์เลี้ยงที่ลงทะเบียนไว้:
+' + names + '
+ถ้าตรงกับใครให้บอกชื่อด้วย';
+  return base;
+}
+
+function registerFace() {
+  if(!cameraOpen) { showToast('❌ กรุณาเปิดกล้องก่อน'); return; }
+  const name = prompt('ชื่อบุคคลนี้คือ?');
+  if(!name) return;
+  const desc = prompt('ลักษณะสั้นๆ เช่น ผู้ชาย อายุ 35 ผมสั้นดำ');
+  if(!desc) return;
+  registeredFaces.push({ name, desc, time: new Date().toLocaleString('th-TH') });
+  localStorage.setItem('ih_faces', JSON.stringify(registeredFaces));
+  renderRegistered();
+  showToast('✅ ลงทะเบียน ' + name + ' แล้ว');
+}
+
+function renderRegistered() {
+  const list = document.getElementById('registeredList');
+  if(!list) return;
+  const all = [
+    ...registeredFaces.map(f => `👤 ${f.name} — ${f.desc}`),
+    ...registeredPets.map(p => `🐾 ${p.name} — ${p.desc}`)
+  ];
+  list.innerHTML = all.length
+    ? all.map(x => `<div style="padding:4px 0;border-bottom:1px solid var(--cream2);font-size:0.78rem;">${x}</div>`).join('')
+    : '<span>ยังไม่มีข้อมูล</span>';
+}
+
+function setResult(text, type) {
+  const el = document.getElementById('camResultText');
+  if(!el) return;
+  el.textContent = text;
+  el.className = 'cam-result-content' + (type ? ' ' + type : '');
+}
+
+// ============================================================
+// ⚙️ SETTINGS
+// ============================================================
+function loadSettings() {
+  const k = localStorage.getItem('ih_gemini_key');
+  const n = localStorage.getItem('ih_home_name');
+  const a = localStorage.getItem('ih_address');
+  const s = localStorage.getItem('ih_sheet_url');
+  if(k) document.getElementById('inputApiKey').value = k;
+  if(n) document.getElementById('inputHomeName').value = n;
+  if(a) document.getElementById('inputAddress').value = a;
+  if(s) document.getElementById('inputSheetUrl').value = s;
+}
+
+function saveApiKey() {
+  const k = document.getElementById('inputApiKey').value.trim();
+  if(!k) { showToast('❌ กรุณาใส่ API Key'); return; }
+  localStorage.setItem('ih_gemini_key', k);
+  showToast('✅ บันทึก API Key แล้ว');
+}
+
+function saveHomeInfo() {
+  localStorage.setItem('ih_home_name', document.getElementById('inputHomeName').value);
+  localStorage.setItem('ih_address', document.getElementById('inputAddress').value);
+  showToast('✅ บันทึกข้อมูลบ้านแล้ว');
+}
+
+function saveSheetUrl() {
+  const url = document.getElementById('inputSheetUrl').value.trim();
+  localStorage.setItem('ih_sheet_url', url);
+  showToast('✅ บันทึก Sheet URL แล้ว');
+}
+
+// ============================================================
+// 📊 LOCAL LOG
+// ============================================================
+let activityLog = JSON.parse(localStorage.getItem('ih_log') || '[]');
+
+function addLog(type, detail) {
+  const now = new Date().toLocaleString('th-TH', {timeZone:'Asia/Bangkok'});
+  activityLog.unshift({ type, detail, time: now });
+  if(activityLog.length > 100) activityLog = activityLog.slice(0,100);
+  localStorage.setItem('ih_log', JSON.stringify(activityLog));
+}
+
+function renderLog() {
+  const list = document.getElementById('logList');
+  if(!list) return;
+  if(!activityLog.length) {
+    list.innerHTML = '<div class="log-empty">ยังไม่มีประวัติ</div>'; return;
+  }
+  list.innerHTML = activityLog.slice(0,50).map(l =>
+    `<div class="log-row">
+      <div><div class="log-detail">${l.type}</div><div class="log-type">${l.detail||''}</div></div>
+      <div class="log-time">${l.time}</div>
+    </div>`
+  ).join('');
+}
+
+function clearLog() {
+  activityLog = [];
+  localStorage.setItem('ih_log', '[]');
+  renderLog();
+  showToast('🗑️ ล้างประวัติแล้ว');
+}
+
+// hook addLog เข้ากับ toggle/scene/voice เดิม
+const _origShowToast = showToast;
+const origToggle2 = toggle;
+function toggle(id) {
+  const d = allDevices.find(x=>x.id===id);
+  origToggle2(id);
+  if(d) addLog(d.on?'✅ เปิด':'⭕ ปิด', d.name);
+}}
 function adjTemp(id,delta){const d=allDevices.find(x=>x.id===id);if(!d)return;d.temp=Math.max(16,Math.min(30,d.temp+delta));renderDevices();}
 function startDim(e,id){e.stopPropagation();const tr=e.currentTarget;const mv=ev=>setDim(id,tr,ev.clientX);const up=()=>{document.removeEventListener('mousemove',mv);document.removeEventListener('mouseup',up);};document.addEventListener('mousemove',mv);document.addEventListener('mouseup',up);setDim(id,tr,e.clientX);}
 function startDimT(e,id){e.preventDefault();e.stopPropagation();const tr=e.currentTarget;const mv=ev=>setDim(id,tr,ev.touches[0].clientX);const up=()=>{document.removeEventListener('touchmove',mv);document.removeEventListener('touchend',up);};document.addEventListener('touchmove',mv,{passive:false});document.addEventListener('touchend',up);setDim(id,tr,e.touches[0].clientX);}
@@ -277,8 +794,540 @@ function setScene(scene,btn){
   else if(scene==='morning'){const cf=allDevices.find(d=>d.id==='coffee');if(cf)cf.on=true;const hw=allDevices.find(d=>d.id==='heater');if(hw)hw.on=true;const lk=allDevices.find(d=>d.id==='light_kit');if(lk){lk.on=true;lk.dim=100;}}
   else if(scene==='home'){const ac=allDevices.find(d=>d.id==='ac');if(ac){ac.on=true;ac.temp=25;}const fr=allDevices.find(d=>d.id==='fridge');if(fr)fr.on=true;const ll=allDevices.find(d=>d.id==='light_liv');if(ll){ll.on=true;ll.dim=80;}}
   showToast(msgs[scene]);renderDevices();updateEnergy();
+
+// ============================================================
+// 📄 PAGE NAVIGATION
+// ============================================================
+const mainContent = document.querySelector('.main');
+
+function showPage(page, btn) {
+  // hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+  // show main content only for home
+  if(mainContent) mainContent.style.display = page === 'home' ? 'block' : 'none';
+
+  document.getElementById('page-' + page)?.classList.add('active');
+  if(btn) btn.classList.add('active');
+
+  if(page === 'log') renderLog();
+  if(page === 'settings') loadSettings();
+  if(page === 'camera') initCameraPage();
 }
-function allOff(){allDevices.forEach(d=>{if(d.id!=='fridge')d.on=false;});showToast('⭕ ปิดทุกอย่างแล้ว (ยกเว้นตู้เย็น)');renderDevices();updateEnergy();}
+
+// ============================================================
+// 📷 B — FACE & PET RECOGNITION (Gemini Vision)
+// ============================================================
+let camStream = null;
+let camMode = 'face';
+let cameraOpen = false;
+let registeredFaces = JSON.parse(localStorage.getItem('ih_faces') || '[]');
+let registeredPets  = JSON.parse(localStorage.getItem('ih_pets')  || '[]');
+
+function initCameraPage() {
+  renderRegistered();
+  loadSettings();
+}
+
+function setMode(mode) {
+  camMode = mode;
+  document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active-btn'));
+  const map = {face:'btnFace', pet:'btnPet', object:'btnObj'};
+  if(map[mode]) document.getElementById(map[mode])?.classList.add('active-btn');
+  const labels = {face:'จำหน้าคน', pet:'จำสัตว์เลี้ยง', object:'วิเคราะห์ภาพทั่วไป'};
+  setResult('เลือกโหมด: ' + (labels[mode]||mode) + ' — กดถ่ายภาพได้เลย', '');
+}
+
+function toggleCamera() {
+  if(cameraOpen) { stopCamera(); return; }
+  startCamera();
+}
+
+async function startCamera() {
+  try {
+    camStream = await navigator.mediaDevices.getUserMedia({
+      video:{ facingMode:'user', width:{ideal:640}, height:{ideal:480} },
+      audio:false
+    });
+    const video = document.getElementById('camVideo');
+    video.srcObject = camStream;
+    document.getElementById('camOverlay').style.display = 'none';
+    document.getElementById('btnCam').textContent = '⏹️ ปิดกล้อง';
+    document.getElementById('btnCam').classList.add('active-btn');
+    document.getElementById('btnCapture').style.display = 'block';
+    document.getElementById('camWrap').classList.add('cam-scanning');
+    cameraOpen = true;
+  } catch(err) {
+    setResult('❌ ไม่สามารถเปิดกล้องได้: ' + err.message, 'warn');
+  }
+}
+
+function stopCamera() {
+  if(camStream) { camStream.getTracks().forEach(t => t.stop()); camStream = null; }
+  const video = document.getElementById('camVideo');
+  video.srcObject = null;
+  document.getElementById('camOverlay').style.display = 'flex';
+  document.getElementById('btnCam').textContent = '📷 เปิดกล้อง';
+  document.getElementById('btnCam').classList.remove('active-btn');
+  document.getElementById('btnCapture').style.display = 'none';
+  document.getElementById('camWrap').classList.remove('cam-scanning');
+  cameraOpen = false;
+}
+
+function captureFrame() {
+  const video = document.getElementById('camVideo');
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth || 640;
+  canvas.height = video.videoHeight || 480;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  return canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+}
+
+async function captureAndAnalyze() {
+  const apiKey = localStorage.getItem('ih_gemini_key');
+  if(!apiKey) {
+    setResult('❌ ยังไม่ได้ใส่ Gemini API Key — ไปที่ ⚙️ ตั้งค่า ก่อนครับ', 'warn');
+    return;
+  }
+  if(!cameraOpen) { setResult('❌ กรุณาเปิดกล้องก่อน', 'warn'); return; }
+
+  setResult('🔍 กำลังวิเคราะห์...', 'loading');
+
+  const base64 = captureFrame();
+  const prompts = {
+    face: buildFacePrompt(),
+    pet:  buildPetPrompt(),
+    object: 'วิเคราะห์ภาพนี้เป็นภาษาไทย บอกว่ามีอะไรในภาพ มีคนหรือสัตว์ไหม ถ้ามีให้อธิบายลักษณะ ตอบสั้นๆ ไม่เกิน 3 บรรทัด'
+  };
+
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    const res = await fetch(url, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        contents:[{ parts:[
+          { text: prompts[camMode] },
+          { inline_data:{ mime_type:'image/jpeg', data:base64 } }
+        ]}],
+        generationConfig:{ temperature:0.1, maxOutputTokens:300 }
+      })
+    });
+    const data = await res.json();
+    if(data.error) { setResult('❌ Gemini Error: ' + data.error.message, 'warn'); return; }
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'ไม่มีผล';
+    setResult(text, 'success');
+    logToSheet('camera', camMode + ': ' + text.substring(0,50));
+    addLog('📷 ' + (camMode==='face'?'จำหน้าคน':camMode==='pet'?'จำสัตว์':'วิเคราะห์ภาพ'), text.substring(0,60));
+  } catch(err) {
+    setResult('❌ เกิดข้อผิดพลาด: ' + err.message, 'warn');
+  }
+}
+
+function buildFacePrompt() {
+  const names = registeredFaces.map(f => `- ${f.name}: ${f.desc}`).join('
+');
+  const base = 'ดูภาพนี้แล้วตอบเป็นภาษาไทย:
+1. มีคนในภาพไหม?
+2. ถ้ามี บอกลักษณะ เพศ อายุโดยประมาณ สีผม
+3. ตอบสั้นๆ ไม่เกิน 3 บรรทัด';
+  if(names) return base + '
+
+บุคคลที่ลงทะเบียนไว้:
+' + names + '
+ถ้าตรงกับลักษณะใครให้บอกชื่อด้วย';
+  return base;
+}
+
+function buildPetPrompt() {
+  const names = registeredPets.map(p => `- ${p.name}: ${p.desc}`).join('
+');
+  const base = 'ดูภาพนี้แล้วตอบเป็นภาษาไทย:
+1. มีสัตว์เลี้ยงในภาพไหม?
+2. ถ้ามี บอกประเภท (สุนัข/แมว) สายพันธุ์โดยประมาณ สี ลักษณะ
+3. ตอบสั้นๆ ไม่เกิน 3 บรรทัด';
+  if(names) return base + '
+
+สัตว์เลี้ยงที่ลงทะเบียนไว้:
+' + names + '
+ถ้าตรงกับใครให้บอกชื่อด้วย';
+  return base;
+}
+
+function registerFace() {
+  if(!cameraOpen) { showToast('❌ กรุณาเปิดกล้องก่อน'); return; }
+  const name = prompt('ชื่อบุคคลนี้คือ?');
+  if(!name) return;
+  const desc = prompt('ลักษณะสั้นๆ เช่น ผู้ชาย อายุ 35 ผมสั้นดำ');
+  if(!desc) return;
+  registeredFaces.push({ name, desc, time: new Date().toLocaleString('th-TH') });
+  localStorage.setItem('ih_faces', JSON.stringify(registeredFaces));
+  renderRegistered();
+  showToast('✅ ลงทะเบียน ' + name + ' แล้ว');
+}
+
+function renderRegistered() {
+  const list = document.getElementById('registeredList');
+  if(!list) return;
+  const all = [
+    ...registeredFaces.map(f => `👤 ${f.name} — ${f.desc}`),
+    ...registeredPets.map(p => `🐾 ${p.name} — ${p.desc}`)
+  ];
+  list.innerHTML = all.length
+    ? all.map(x => `<div style="padding:4px 0;border-bottom:1px solid var(--cream2);font-size:0.78rem;">${x}</div>`).join('')
+    : '<span>ยังไม่มีข้อมูล</span>';
+}
+
+function setResult(text, type) {
+  const el = document.getElementById('camResultText');
+  if(!el) return;
+  el.textContent = text;
+  el.className = 'cam-result-content' + (type ? ' ' + type : '');
+}
+
+// ============================================================
+// ⚙️ SETTINGS
+// ============================================================
+function loadSettings() {
+  const k = localStorage.getItem('ih_gemini_key');
+  const n = localStorage.getItem('ih_home_name');
+  const a = localStorage.getItem('ih_address');
+  const s = localStorage.getItem('ih_sheet_url');
+  if(k) document.getElementById('inputApiKey').value = k;
+  if(n) document.getElementById('inputHomeName').value = n;
+  if(a) document.getElementById('inputAddress').value = a;
+  if(s) document.getElementById('inputSheetUrl').value = s;
+}
+
+function saveApiKey() {
+  const k = document.getElementById('inputApiKey').value.trim();
+  if(!k) { showToast('❌ กรุณาใส่ API Key'); return; }
+  localStorage.setItem('ih_gemini_key', k);
+  showToast('✅ บันทึก API Key แล้ว');
+}
+
+function saveHomeInfo() {
+  localStorage.setItem('ih_home_name', document.getElementById('inputHomeName').value);
+  localStorage.setItem('ih_address', document.getElementById('inputAddress').value);
+  showToast('✅ บันทึกข้อมูลบ้านแล้ว');
+}
+
+function saveSheetUrl() {
+  const url = document.getElementById('inputSheetUrl').value.trim();
+  localStorage.setItem('ih_sheet_url', url);
+  showToast('✅ บันทึก Sheet URL แล้ว');
+}
+
+// ============================================================
+// 📊 LOCAL LOG
+// ============================================================
+let activityLog = JSON.parse(localStorage.getItem('ih_log') || '[]');
+
+function addLog(type, detail) {
+  const now = new Date().toLocaleString('th-TH', {timeZone:'Asia/Bangkok'});
+  activityLog.unshift({ type, detail, time: now });
+  if(activityLog.length > 100) activityLog = activityLog.slice(0,100);
+  localStorage.setItem('ih_log', JSON.stringify(activityLog));
+}
+
+function renderLog() {
+  const list = document.getElementById('logList');
+  if(!list) return;
+  if(!activityLog.length) {
+    list.innerHTML = '<div class="log-empty">ยังไม่มีประวัติ</div>'; return;
+  }
+  list.innerHTML = activityLog.slice(0,50).map(l =>
+    `<div class="log-row">
+      <div><div class="log-detail">${l.type}</div><div class="log-type">${l.detail||''}</div></div>
+      <div class="log-time">${l.time}</div>
+    </div>`
+  ).join('');
+}
+
+function clearLog() {
+  activityLog = [];
+  localStorage.setItem('ih_log', '[]');
+  renderLog();
+  showToast('🗑️ ล้างประวัติแล้ว');
+}
+
+// hook addLog เข้ากับ toggle/scene/voice เดิม
+const _origShowToast = showToast;
+const origToggle2 = toggle;
+function toggle(id) {
+  const d = allDevices.find(x=>x.id===id);
+  origToggle2(id);
+  if(d) addLog(d.on?'✅ เปิด':'⭕ ปิด', d.name);
+}
+}
+function allOff(){allDevices.forEach(d=>{if(d.id!=='fridge')d.on=false;});showToast('⭕ ปิดทุกอย่างแล้ว (ยกเว้นตู้เย็น)');renderDevices();updateEnergy();
+
+// ============================================================
+// 📄 PAGE NAVIGATION
+// ============================================================
+const mainContent = document.querySelector('.main');
+
+function showPage(page, btn) {
+  // hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+  // show main content only for home
+  if(mainContent) mainContent.style.display = page === 'home' ? 'block' : 'none';
+
+  document.getElementById('page-' + page)?.classList.add('active');
+  if(btn) btn.classList.add('active');
+
+  if(page === 'log') renderLog();
+  if(page === 'settings') loadSettings();
+  if(page === 'camera') initCameraPage();
+}
+
+// ============================================================
+// 📷 B — FACE & PET RECOGNITION (Gemini Vision)
+// ============================================================
+let camStream = null;
+let camMode = 'face';
+let cameraOpen = false;
+let registeredFaces = JSON.parse(localStorage.getItem('ih_faces') || '[]');
+let registeredPets  = JSON.parse(localStorage.getItem('ih_pets')  || '[]');
+
+function initCameraPage() {
+  renderRegistered();
+  loadSettings();
+}
+
+function setMode(mode) {
+  camMode = mode;
+  document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active-btn'));
+  const map = {face:'btnFace', pet:'btnPet', object:'btnObj'};
+  if(map[mode]) document.getElementById(map[mode])?.classList.add('active-btn');
+  const labels = {face:'จำหน้าคน', pet:'จำสัตว์เลี้ยง', object:'วิเคราะห์ภาพทั่วไป'};
+  setResult('เลือกโหมด: ' + (labels[mode]||mode) + ' — กดถ่ายภาพได้เลย', '');
+}
+
+function toggleCamera() {
+  if(cameraOpen) { stopCamera(); return; }
+  startCamera();
+}
+
+async function startCamera() {
+  try {
+    camStream = await navigator.mediaDevices.getUserMedia({
+      video:{ facingMode:'user', width:{ideal:640}, height:{ideal:480} },
+      audio:false
+    });
+    const video = document.getElementById('camVideo');
+    video.srcObject = camStream;
+    document.getElementById('camOverlay').style.display = 'none';
+    document.getElementById('btnCam').textContent = '⏹️ ปิดกล้อง';
+    document.getElementById('btnCam').classList.add('active-btn');
+    document.getElementById('btnCapture').style.display = 'block';
+    document.getElementById('camWrap').classList.add('cam-scanning');
+    cameraOpen = true;
+  } catch(err) {
+    setResult('❌ ไม่สามารถเปิดกล้องได้: ' + err.message, 'warn');
+  }
+}
+
+function stopCamera() {
+  if(camStream) { camStream.getTracks().forEach(t => t.stop()); camStream = null; }
+  const video = document.getElementById('camVideo');
+  video.srcObject = null;
+  document.getElementById('camOverlay').style.display = 'flex';
+  document.getElementById('btnCam').textContent = '📷 เปิดกล้อง';
+  document.getElementById('btnCam').classList.remove('active-btn');
+  document.getElementById('btnCapture').style.display = 'none';
+  document.getElementById('camWrap').classList.remove('cam-scanning');
+  cameraOpen = false;
+}
+
+function captureFrame() {
+  const video = document.getElementById('camVideo');
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth || 640;
+  canvas.height = video.videoHeight || 480;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  return canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+}
+
+async function captureAndAnalyze() {
+  const apiKey = localStorage.getItem('ih_gemini_key');
+  if(!apiKey) {
+    setResult('❌ ยังไม่ได้ใส่ Gemini API Key — ไปที่ ⚙️ ตั้งค่า ก่อนครับ', 'warn');
+    return;
+  }
+  if(!cameraOpen) { setResult('❌ กรุณาเปิดกล้องก่อน', 'warn'); return; }
+
+  setResult('🔍 กำลังวิเคราะห์...', 'loading');
+
+  const base64 = captureFrame();
+  const prompts = {
+    face: buildFacePrompt(),
+    pet:  buildPetPrompt(),
+    object: 'วิเคราะห์ภาพนี้เป็นภาษาไทย บอกว่ามีอะไรในภาพ มีคนหรือสัตว์ไหม ถ้ามีให้อธิบายลักษณะ ตอบสั้นๆ ไม่เกิน 3 บรรทัด'
+  };
+
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    const res = await fetch(url, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        contents:[{ parts:[
+          { text: prompts[camMode] },
+          { inline_data:{ mime_type:'image/jpeg', data:base64 } }
+        ]}],
+        generationConfig:{ temperature:0.1, maxOutputTokens:300 }
+      })
+    });
+    const data = await res.json();
+    if(data.error) { setResult('❌ Gemini Error: ' + data.error.message, 'warn'); return; }
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'ไม่มีผล';
+    setResult(text, 'success');
+    logToSheet('camera', camMode + ': ' + text.substring(0,50));
+    addLog('📷 ' + (camMode==='face'?'จำหน้าคน':camMode==='pet'?'จำสัตว์':'วิเคราะห์ภาพ'), text.substring(0,60));
+  } catch(err) {
+    setResult('❌ เกิดข้อผิดพลาด: ' + err.message, 'warn');
+  }
+}
+
+function buildFacePrompt() {
+  const names = registeredFaces.map(f => `- ${f.name}: ${f.desc}`).join('
+');
+  const base = 'ดูภาพนี้แล้วตอบเป็นภาษาไทย:
+1. มีคนในภาพไหม?
+2. ถ้ามี บอกลักษณะ เพศ อายุโดยประมาณ สีผม
+3. ตอบสั้นๆ ไม่เกิน 3 บรรทัด';
+  if(names) return base + '
+
+บุคคลที่ลงทะเบียนไว้:
+' + names + '
+ถ้าตรงกับลักษณะใครให้บอกชื่อด้วย';
+  return base;
+}
+
+function buildPetPrompt() {
+  const names = registeredPets.map(p => `- ${p.name}: ${p.desc}`).join('
+');
+  const base = 'ดูภาพนี้แล้วตอบเป็นภาษาไทย:
+1. มีสัตว์เลี้ยงในภาพไหม?
+2. ถ้ามี บอกประเภท (สุนัข/แมว) สายพันธุ์โดยประมาณ สี ลักษณะ
+3. ตอบสั้นๆ ไม่เกิน 3 บรรทัด';
+  if(names) return base + '
+
+สัตว์เลี้ยงที่ลงทะเบียนไว้:
+' + names + '
+ถ้าตรงกับใครให้บอกชื่อด้วย';
+  return base;
+}
+
+function registerFace() {
+  if(!cameraOpen) { showToast('❌ กรุณาเปิดกล้องก่อน'); return; }
+  const name = prompt('ชื่อบุคคลนี้คือ?');
+  if(!name) return;
+  const desc = prompt('ลักษณะสั้นๆ เช่น ผู้ชาย อายุ 35 ผมสั้นดำ');
+  if(!desc) return;
+  registeredFaces.push({ name, desc, time: new Date().toLocaleString('th-TH') });
+  localStorage.setItem('ih_faces', JSON.stringify(registeredFaces));
+  renderRegistered();
+  showToast('✅ ลงทะเบียน ' + name + ' แล้ว');
+}
+
+function renderRegistered() {
+  const list = document.getElementById('registeredList');
+  if(!list) return;
+  const all = [
+    ...registeredFaces.map(f => `👤 ${f.name} — ${f.desc}`),
+    ...registeredPets.map(p => `🐾 ${p.name} — ${p.desc}`)
+  ];
+  list.innerHTML = all.length
+    ? all.map(x => `<div style="padding:4px 0;border-bottom:1px solid var(--cream2);font-size:0.78rem;">${x}</div>`).join('')
+    : '<span>ยังไม่มีข้อมูล</span>';
+}
+
+function setResult(text, type) {
+  const el = document.getElementById('camResultText');
+  if(!el) return;
+  el.textContent = text;
+  el.className = 'cam-result-content' + (type ? ' ' + type : '');
+}
+
+// ============================================================
+// ⚙️ SETTINGS
+// ============================================================
+function loadSettings() {
+  const k = localStorage.getItem('ih_gemini_key');
+  const n = localStorage.getItem('ih_home_name');
+  const a = localStorage.getItem('ih_address');
+  const s = localStorage.getItem('ih_sheet_url');
+  if(k) document.getElementById('inputApiKey').value = k;
+  if(n) document.getElementById('inputHomeName').value = n;
+  if(a) document.getElementById('inputAddress').value = a;
+  if(s) document.getElementById('inputSheetUrl').value = s;
+}
+
+function saveApiKey() {
+  const k = document.getElementById('inputApiKey').value.trim();
+  if(!k) { showToast('❌ กรุณาใส่ API Key'); return; }
+  localStorage.setItem('ih_gemini_key', k);
+  showToast('✅ บันทึก API Key แล้ว');
+}
+
+function saveHomeInfo() {
+  localStorage.setItem('ih_home_name', document.getElementById('inputHomeName').value);
+  localStorage.setItem('ih_address', document.getElementById('inputAddress').value);
+  showToast('✅ บันทึกข้อมูลบ้านแล้ว');
+}
+
+function saveSheetUrl() {
+  const url = document.getElementById('inputSheetUrl').value.trim();
+  localStorage.setItem('ih_sheet_url', url);
+  showToast('✅ บันทึก Sheet URL แล้ว');
+}
+
+// ============================================================
+// 📊 LOCAL LOG
+// ============================================================
+let activityLog = JSON.parse(localStorage.getItem('ih_log') || '[]');
+
+function addLog(type, detail) {
+  const now = new Date().toLocaleString('th-TH', {timeZone:'Asia/Bangkok'});
+  activityLog.unshift({ type, detail, time: now });
+  if(activityLog.length > 100) activityLog = activityLog.slice(0,100);
+  localStorage.setItem('ih_log', JSON.stringify(activityLog));
+}
+
+function renderLog() {
+  const list = document.getElementById('logList');
+  if(!list) return;
+  if(!activityLog.length) {
+    list.innerHTML = '<div class="log-empty">ยังไม่มีประวัติ</div>'; return;
+  }
+  list.innerHTML = activityLog.slice(0,50).map(l =>
+    `<div class="log-row">
+      <div><div class="log-detail">${l.type}</div><div class="log-type">${l.detail||''}</div></div>
+      <div class="log-time">${l.time}</div>
+    </div>`
+  ).join('');
+}
+
+function clearLog() {
+  activityLog = [];
+  localStorage.setItem('ih_log', '[]');
+  renderLog();
+  showToast('🗑️ ล้างประวัติแล้ว');
+}
+
+// hook addLog เข้ากับ toggle/scene/voice เดิม
+const _origShowToast = showToast;
+const origToggle2 = toggle;
+function toggle(id) {
+  const d = allDevices.find(x=>x.id===id);
+  origToggle2(id);
+  if(d) addLog(d.on?'✅ เปิด':'⭕ ปิด', d.name);
+}}
 function openVoiceModal(){document.getElementById('voiceModal').classList.add('show');}
 function closeModal(e){if(e.target===document.getElementById('voiceModal'))document.getElementById('voiceModal').classList.remove('show');}
 function voiceCmd(cmd){
@@ -293,6 +1342,272 @@ function voiceCmd(cmd){
   else if(cmd.includes('นอนหลับ')){document.querySelectorAll('.scene-btn')[1].click();return;}
   else if(cmd.includes('ออกไปข้างนอก')){document.querySelectorAll('.scene-btn')[2].click();return;}
   renderDevices();updateEnergy();
+
+// ============================================================
+// 📄 PAGE NAVIGATION
+// ============================================================
+const mainContent = document.querySelector('.main');
+
+function showPage(page, btn) {
+  // hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+  // show main content only for home
+  if(mainContent) mainContent.style.display = page === 'home' ? 'block' : 'none';
+
+  document.getElementById('page-' + page)?.classList.add('active');
+  if(btn) btn.classList.add('active');
+
+  if(page === 'log') renderLog();
+  if(page === 'settings') loadSettings();
+  if(page === 'camera') initCameraPage();
+}
+
+// ============================================================
+// 📷 B — FACE & PET RECOGNITION (Gemini Vision)
+// ============================================================
+let camStream = null;
+let camMode = 'face';
+let cameraOpen = false;
+let registeredFaces = JSON.parse(localStorage.getItem('ih_faces') || '[]');
+let registeredPets  = JSON.parse(localStorage.getItem('ih_pets')  || '[]');
+
+function initCameraPage() {
+  renderRegistered();
+  loadSettings();
+}
+
+function setMode(mode) {
+  camMode = mode;
+  document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active-btn'));
+  const map = {face:'btnFace', pet:'btnPet', object:'btnObj'};
+  if(map[mode]) document.getElementById(map[mode])?.classList.add('active-btn');
+  const labels = {face:'จำหน้าคน', pet:'จำสัตว์เลี้ยง', object:'วิเคราะห์ภาพทั่วไป'};
+  setResult('เลือกโหมด: ' + (labels[mode]||mode) + ' — กดถ่ายภาพได้เลย', '');
+}
+
+function toggleCamera() {
+  if(cameraOpen) { stopCamera(); return; }
+  startCamera();
+}
+
+async function startCamera() {
+  try {
+    camStream = await navigator.mediaDevices.getUserMedia({
+      video:{ facingMode:'user', width:{ideal:640}, height:{ideal:480} },
+      audio:false
+    });
+    const video = document.getElementById('camVideo');
+    video.srcObject = camStream;
+    document.getElementById('camOverlay').style.display = 'none';
+    document.getElementById('btnCam').textContent = '⏹️ ปิดกล้อง';
+    document.getElementById('btnCam').classList.add('active-btn');
+    document.getElementById('btnCapture').style.display = 'block';
+    document.getElementById('camWrap').classList.add('cam-scanning');
+    cameraOpen = true;
+  } catch(err) {
+    setResult('❌ ไม่สามารถเปิดกล้องได้: ' + err.message, 'warn');
+  }
+}
+
+function stopCamera() {
+  if(camStream) { camStream.getTracks().forEach(t => t.stop()); camStream = null; }
+  const video = document.getElementById('camVideo');
+  video.srcObject = null;
+  document.getElementById('camOverlay').style.display = 'flex';
+  document.getElementById('btnCam').textContent = '📷 เปิดกล้อง';
+  document.getElementById('btnCam').classList.remove('active-btn');
+  document.getElementById('btnCapture').style.display = 'none';
+  document.getElementById('camWrap').classList.remove('cam-scanning');
+  cameraOpen = false;
+}
+
+function captureFrame() {
+  const video = document.getElementById('camVideo');
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth || 640;
+  canvas.height = video.videoHeight || 480;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  return canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+}
+
+async function captureAndAnalyze() {
+  const apiKey = localStorage.getItem('ih_gemini_key');
+  if(!apiKey) {
+    setResult('❌ ยังไม่ได้ใส่ Gemini API Key — ไปที่ ⚙️ ตั้งค่า ก่อนครับ', 'warn');
+    return;
+  }
+  if(!cameraOpen) { setResult('❌ กรุณาเปิดกล้องก่อน', 'warn'); return; }
+
+  setResult('🔍 กำลังวิเคราะห์...', 'loading');
+
+  const base64 = captureFrame();
+  const prompts = {
+    face: buildFacePrompt(),
+    pet:  buildPetPrompt(),
+    object: 'วิเคราะห์ภาพนี้เป็นภาษาไทย บอกว่ามีอะไรในภาพ มีคนหรือสัตว์ไหม ถ้ามีให้อธิบายลักษณะ ตอบสั้นๆ ไม่เกิน 3 บรรทัด'
+  };
+
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    const res = await fetch(url, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        contents:[{ parts:[
+          { text: prompts[camMode] },
+          { inline_data:{ mime_type:'image/jpeg', data:base64 } }
+        ]}],
+        generationConfig:{ temperature:0.1, maxOutputTokens:300 }
+      })
+    });
+    const data = await res.json();
+    if(data.error) { setResult('❌ Gemini Error: ' + data.error.message, 'warn'); return; }
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'ไม่มีผล';
+    setResult(text, 'success');
+    logToSheet('camera', camMode + ': ' + text.substring(0,50));
+    addLog('📷 ' + (camMode==='face'?'จำหน้าคน':camMode==='pet'?'จำสัตว์':'วิเคราะห์ภาพ'), text.substring(0,60));
+  } catch(err) {
+    setResult('❌ เกิดข้อผิดพลาด: ' + err.message, 'warn');
+  }
+}
+
+function buildFacePrompt() {
+  const names = registeredFaces.map(f => `- ${f.name}: ${f.desc}`).join('
+');
+  const base = 'ดูภาพนี้แล้วตอบเป็นภาษาไทย:
+1. มีคนในภาพไหม?
+2. ถ้ามี บอกลักษณะ เพศ อายุโดยประมาณ สีผม
+3. ตอบสั้นๆ ไม่เกิน 3 บรรทัด';
+  if(names) return base + '
+
+บุคคลที่ลงทะเบียนไว้:
+' + names + '
+ถ้าตรงกับลักษณะใครให้บอกชื่อด้วย';
+  return base;
+}
+
+function buildPetPrompt() {
+  const names = registeredPets.map(p => `- ${p.name}: ${p.desc}`).join('
+');
+  const base = 'ดูภาพนี้แล้วตอบเป็นภาษาไทย:
+1. มีสัตว์เลี้ยงในภาพไหม?
+2. ถ้ามี บอกประเภท (สุนัข/แมว) สายพันธุ์โดยประมาณ สี ลักษณะ
+3. ตอบสั้นๆ ไม่เกิน 3 บรรทัด';
+  if(names) return base + '
+
+สัตว์เลี้ยงที่ลงทะเบียนไว้:
+' + names + '
+ถ้าตรงกับใครให้บอกชื่อด้วย';
+  return base;
+}
+
+function registerFace() {
+  if(!cameraOpen) { showToast('❌ กรุณาเปิดกล้องก่อน'); return; }
+  const name = prompt('ชื่อบุคคลนี้คือ?');
+  if(!name) return;
+  const desc = prompt('ลักษณะสั้นๆ เช่น ผู้ชาย อายุ 35 ผมสั้นดำ');
+  if(!desc) return;
+  registeredFaces.push({ name, desc, time: new Date().toLocaleString('th-TH') });
+  localStorage.setItem('ih_faces', JSON.stringify(registeredFaces));
+  renderRegistered();
+  showToast('✅ ลงทะเบียน ' + name + ' แล้ว');
+}
+
+function renderRegistered() {
+  const list = document.getElementById('registeredList');
+  if(!list) return;
+  const all = [
+    ...registeredFaces.map(f => `👤 ${f.name} — ${f.desc}`),
+    ...registeredPets.map(p => `🐾 ${p.name} — ${p.desc}`)
+  ];
+  list.innerHTML = all.length
+    ? all.map(x => `<div style="padding:4px 0;border-bottom:1px solid var(--cream2);font-size:0.78rem;">${x}</div>`).join('')
+    : '<span>ยังไม่มีข้อมูล</span>';
+}
+
+function setResult(text, type) {
+  const el = document.getElementById('camResultText');
+  if(!el) return;
+  el.textContent = text;
+  el.className = 'cam-result-content' + (type ? ' ' + type : '');
+}
+
+// ============================================================
+// ⚙️ SETTINGS
+// ============================================================
+function loadSettings() {
+  const k = localStorage.getItem('ih_gemini_key');
+  const n = localStorage.getItem('ih_home_name');
+  const a = localStorage.getItem('ih_address');
+  const s = localStorage.getItem('ih_sheet_url');
+  if(k) document.getElementById('inputApiKey').value = k;
+  if(n) document.getElementById('inputHomeName').value = n;
+  if(a) document.getElementById('inputAddress').value = a;
+  if(s) document.getElementById('inputSheetUrl').value = s;
+}
+
+function saveApiKey() {
+  const k = document.getElementById('inputApiKey').value.trim();
+  if(!k) { showToast('❌ กรุณาใส่ API Key'); return; }
+  localStorage.setItem('ih_gemini_key', k);
+  showToast('✅ บันทึก API Key แล้ว');
+}
+
+function saveHomeInfo() {
+  localStorage.setItem('ih_home_name', document.getElementById('inputHomeName').value);
+  localStorage.setItem('ih_address', document.getElementById('inputAddress').value);
+  showToast('✅ บันทึกข้อมูลบ้านแล้ว');
+}
+
+function saveSheetUrl() {
+  const url = document.getElementById('inputSheetUrl').value.trim();
+  localStorage.setItem('ih_sheet_url', url);
+  showToast('✅ บันทึก Sheet URL แล้ว');
+}
+
+// ============================================================
+// 📊 LOCAL LOG
+// ============================================================
+let activityLog = JSON.parse(localStorage.getItem('ih_log') || '[]');
+
+function addLog(type, detail) {
+  const now = new Date().toLocaleString('th-TH', {timeZone:'Asia/Bangkok'});
+  activityLog.unshift({ type, detail, time: now });
+  if(activityLog.length > 100) activityLog = activityLog.slice(0,100);
+  localStorage.setItem('ih_log', JSON.stringify(activityLog));
+}
+
+function renderLog() {
+  const list = document.getElementById('logList');
+  if(!list) return;
+  if(!activityLog.length) {
+    list.innerHTML = '<div class="log-empty">ยังไม่มีประวัติ</div>'; return;
+  }
+  list.innerHTML = activityLog.slice(0,50).map(l =>
+    `<div class="log-row">
+      <div><div class="log-detail">${l.type}</div><div class="log-type">${l.detail||''}</div></div>
+      <div class="log-time">${l.time}</div>
+    </div>`
+  ).join('');
+}
+
+function clearLog() {
+  activityLog = [];
+  localStorage.setItem('ih_log', '[]');
+  renderLog();
+  showToast('🗑️ ล้างประวัติแล้ว');
+}
+
+// hook addLog เข้ากับ toggle/scene/voice เดิม
+const _origShowToast = showToast;
+const origToggle2 = toggle;
+function toggle(id) {
+  const d = allDevices.find(x=>x.id===id);
+  origToggle2(id);
+  if(d) addLog(d.on?'✅ เปิด':'⭕ ปิด', d.name);
+}
 }
 let tt;
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2200);}
@@ -407,6 +1722,272 @@ function processVoiceText(text){
     showToast('❓ ไม่เข้าใจคำสั่ง: "'+text+'"');
   }
   renderDevices();updateEnergy();
+
+// ============================================================
+// 📄 PAGE NAVIGATION
+// ============================================================
+const mainContent = document.querySelector('.main');
+
+function showPage(page, btn) {
+  // hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+  // show main content only for home
+  if(mainContent) mainContent.style.display = page === 'home' ? 'block' : 'none';
+
+  document.getElementById('page-' + page)?.classList.add('active');
+  if(btn) btn.classList.add('active');
+
+  if(page === 'log') renderLog();
+  if(page === 'settings') loadSettings();
+  if(page === 'camera') initCameraPage();
+}
+
+// ============================================================
+// 📷 B — FACE & PET RECOGNITION (Gemini Vision)
+// ============================================================
+let camStream = null;
+let camMode = 'face';
+let cameraOpen = false;
+let registeredFaces = JSON.parse(localStorage.getItem('ih_faces') || '[]');
+let registeredPets  = JSON.parse(localStorage.getItem('ih_pets')  || '[]');
+
+function initCameraPage() {
+  renderRegistered();
+  loadSettings();
+}
+
+function setMode(mode) {
+  camMode = mode;
+  document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active-btn'));
+  const map = {face:'btnFace', pet:'btnPet', object:'btnObj'};
+  if(map[mode]) document.getElementById(map[mode])?.classList.add('active-btn');
+  const labels = {face:'จำหน้าคน', pet:'จำสัตว์เลี้ยง', object:'วิเคราะห์ภาพทั่วไป'};
+  setResult('เลือกโหมด: ' + (labels[mode]||mode) + ' — กดถ่ายภาพได้เลย', '');
+}
+
+function toggleCamera() {
+  if(cameraOpen) { stopCamera(); return; }
+  startCamera();
+}
+
+async function startCamera() {
+  try {
+    camStream = await navigator.mediaDevices.getUserMedia({
+      video:{ facingMode:'user', width:{ideal:640}, height:{ideal:480} },
+      audio:false
+    });
+    const video = document.getElementById('camVideo');
+    video.srcObject = camStream;
+    document.getElementById('camOverlay').style.display = 'none';
+    document.getElementById('btnCam').textContent = '⏹️ ปิดกล้อง';
+    document.getElementById('btnCam').classList.add('active-btn');
+    document.getElementById('btnCapture').style.display = 'block';
+    document.getElementById('camWrap').classList.add('cam-scanning');
+    cameraOpen = true;
+  } catch(err) {
+    setResult('❌ ไม่สามารถเปิดกล้องได้: ' + err.message, 'warn');
+  }
+}
+
+function stopCamera() {
+  if(camStream) { camStream.getTracks().forEach(t => t.stop()); camStream = null; }
+  const video = document.getElementById('camVideo');
+  video.srcObject = null;
+  document.getElementById('camOverlay').style.display = 'flex';
+  document.getElementById('btnCam').textContent = '📷 เปิดกล้อง';
+  document.getElementById('btnCam').classList.remove('active-btn');
+  document.getElementById('btnCapture').style.display = 'none';
+  document.getElementById('camWrap').classList.remove('cam-scanning');
+  cameraOpen = false;
+}
+
+function captureFrame() {
+  const video = document.getElementById('camVideo');
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth || 640;
+  canvas.height = video.videoHeight || 480;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  return canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+}
+
+async function captureAndAnalyze() {
+  const apiKey = localStorage.getItem('ih_gemini_key');
+  if(!apiKey) {
+    setResult('❌ ยังไม่ได้ใส่ Gemini API Key — ไปที่ ⚙️ ตั้งค่า ก่อนครับ', 'warn');
+    return;
+  }
+  if(!cameraOpen) { setResult('❌ กรุณาเปิดกล้องก่อน', 'warn'); return; }
+
+  setResult('🔍 กำลังวิเคราะห์...', 'loading');
+
+  const base64 = captureFrame();
+  const prompts = {
+    face: buildFacePrompt(),
+    pet:  buildPetPrompt(),
+    object: 'วิเคราะห์ภาพนี้เป็นภาษาไทย บอกว่ามีอะไรในภาพ มีคนหรือสัตว์ไหม ถ้ามีให้อธิบายลักษณะ ตอบสั้นๆ ไม่เกิน 3 บรรทัด'
+  };
+
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    const res = await fetch(url, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        contents:[{ parts:[
+          { text: prompts[camMode] },
+          { inline_data:{ mime_type:'image/jpeg', data:base64 } }
+        ]}],
+        generationConfig:{ temperature:0.1, maxOutputTokens:300 }
+      })
+    });
+    const data = await res.json();
+    if(data.error) { setResult('❌ Gemini Error: ' + data.error.message, 'warn'); return; }
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'ไม่มีผล';
+    setResult(text, 'success');
+    logToSheet('camera', camMode + ': ' + text.substring(0,50));
+    addLog('📷 ' + (camMode==='face'?'จำหน้าคน':camMode==='pet'?'จำสัตว์':'วิเคราะห์ภาพ'), text.substring(0,60));
+  } catch(err) {
+    setResult('❌ เกิดข้อผิดพลาด: ' + err.message, 'warn');
+  }
+}
+
+function buildFacePrompt() {
+  const names = registeredFaces.map(f => `- ${f.name}: ${f.desc}`).join('
+');
+  const base = 'ดูภาพนี้แล้วตอบเป็นภาษาไทย:
+1. มีคนในภาพไหม?
+2. ถ้ามี บอกลักษณะ เพศ อายุโดยประมาณ สีผม
+3. ตอบสั้นๆ ไม่เกิน 3 บรรทัด';
+  if(names) return base + '
+
+บุคคลที่ลงทะเบียนไว้:
+' + names + '
+ถ้าตรงกับลักษณะใครให้บอกชื่อด้วย';
+  return base;
+}
+
+function buildPetPrompt() {
+  const names = registeredPets.map(p => `- ${p.name}: ${p.desc}`).join('
+');
+  const base = 'ดูภาพนี้แล้วตอบเป็นภาษาไทย:
+1. มีสัตว์เลี้ยงในภาพไหม?
+2. ถ้ามี บอกประเภท (สุนัข/แมว) สายพันธุ์โดยประมาณ สี ลักษณะ
+3. ตอบสั้นๆ ไม่เกิน 3 บรรทัด';
+  if(names) return base + '
+
+สัตว์เลี้ยงที่ลงทะเบียนไว้:
+' + names + '
+ถ้าตรงกับใครให้บอกชื่อด้วย';
+  return base;
+}
+
+function registerFace() {
+  if(!cameraOpen) { showToast('❌ กรุณาเปิดกล้องก่อน'); return; }
+  const name = prompt('ชื่อบุคคลนี้คือ?');
+  if(!name) return;
+  const desc = prompt('ลักษณะสั้นๆ เช่น ผู้ชาย อายุ 35 ผมสั้นดำ');
+  if(!desc) return;
+  registeredFaces.push({ name, desc, time: new Date().toLocaleString('th-TH') });
+  localStorage.setItem('ih_faces', JSON.stringify(registeredFaces));
+  renderRegistered();
+  showToast('✅ ลงทะเบียน ' + name + ' แล้ว');
+}
+
+function renderRegistered() {
+  const list = document.getElementById('registeredList');
+  if(!list) return;
+  const all = [
+    ...registeredFaces.map(f => `👤 ${f.name} — ${f.desc}`),
+    ...registeredPets.map(p => `🐾 ${p.name} — ${p.desc}`)
+  ];
+  list.innerHTML = all.length
+    ? all.map(x => `<div style="padding:4px 0;border-bottom:1px solid var(--cream2);font-size:0.78rem;">${x}</div>`).join('')
+    : '<span>ยังไม่มีข้อมูล</span>';
+}
+
+function setResult(text, type) {
+  const el = document.getElementById('camResultText');
+  if(!el) return;
+  el.textContent = text;
+  el.className = 'cam-result-content' + (type ? ' ' + type : '');
+}
+
+// ============================================================
+// ⚙️ SETTINGS
+// ============================================================
+function loadSettings() {
+  const k = localStorage.getItem('ih_gemini_key');
+  const n = localStorage.getItem('ih_home_name');
+  const a = localStorage.getItem('ih_address');
+  const s = localStorage.getItem('ih_sheet_url');
+  if(k) document.getElementById('inputApiKey').value = k;
+  if(n) document.getElementById('inputHomeName').value = n;
+  if(a) document.getElementById('inputAddress').value = a;
+  if(s) document.getElementById('inputSheetUrl').value = s;
+}
+
+function saveApiKey() {
+  const k = document.getElementById('inputApiKey').value.trim();
+  if(!k) { showToast('❌ กรุณาใส่ API Key'); return; }
+  localStorage.setItem('ih_gemini_key', k);
+  showToast('✅ บันทึก API Key แล้ว');
+}
+
+function saveHomeInfo() {
+  localStorage.setItem('ih_home_name', document.getElementById('inputHomeName').value);
+  localStorage.setItem('ih_address', document.getElementById('inputAddress').value);
+  showToast('✅ บันทึกข้อมูลบ้านแล้ว');
+}
+
+function saveSheetUrl() {
+  const url = document.getElementById('inputSheetUrl').value.trim();
+  localStorage.setItem('ih_sheet_url', url);
+  showToast('✅ บันทึก Sheet URL แล้ว');
+}
+
+// ============================================================
+// 📊 LOCAL LOG
+// ============================================================
+let activityLog = JSON.parse(localStorage.getItem('ih_log') || '[]');
+
+function addLog(type, detail) {
+  const now = new Date().toLocaleString('th-TH', {timeZone:'Asia/Bangkok'});
+  activityLog.unshift({ type, detail, time: now });
+  if(activityLog.length > 100) activityLog = activityLog.slice(0,100);
+  localStorage.setItem('ih_log', JSON.stringify(activityLog));
+}
+
+function renderLog() {
+  const list = document.getElementById('logList');
+  if(!list) return;
+  if(!activityLog.length) {
+    list.innerHTML = '<div class="log-empty">ยังไม่มีประวัติ</div>'; return;
+  }
+  list.innerHTML = activityLog.slice(0,50).map(l =>
+    `<div class="log-row">
+      <div><div class="log-detail">${l.type}</div><div class="log-type">${l.detail||''}</div></div>
+      <div class="log-time">${l.time}</div>
+    </div>`
+  ).join('');
+}
+
+function clearLog() {
+  activityLog = [];
+  localStorage.setItem('ih_log', '[]');
+  renderLog();
+  showToast('🗑️ ล้างประวัติแล้ว');
+}
+
+// hook addLog เข้ากับ toggle/scene/voice เดิม
+const _origShowToast = showToast;
+const origToggle2 = toggle;
+function toggle(id) {
+  const d = allDevices.find(x=>x.id===id);
+  origToggle2(id);
+  if(d) addLog(d.on?'✅ เปิด':'⭕ ปิด', d.name);
+}
   logToSheet('voice', text);
 }
 
@@ -438,6 +2019,272 @@ function toggle(id){
 }
 
 renderDevices();updateEnergy();
+
+// ============================================================
+// 📄 PAGE NAVIGATION
+// ============================================================
+const mainContent = document.querySelector('.main');
+
+function showPage(page, btn) {
+  // hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+  // show main content only for home
+  if(mainContent) mainContent.style.display = page === 'home' ? 'block' : 'none';
+
+  document.getElementById('page-' + page)?.classList.add('active');
+  if(btn) btn.classList.add('active');
+
+  if(page === 'log') renderLog();
+  if(page === 'settings') loadSettings();
+  if(page === 'camera') initCameraPage();
+}
+
+// ============================================================
+// 📷 B — FACE & PET RECOGNITION (Gemini Vision)
+// ============================================================
+let camStream = null;
+let camMode = 'face';
+let cameraOpen = false;
+let registeredFaces = JSON.parse(localStorage.getItem('ih_faces') || '[]');
+let registeredPets  = JSON.parse(localStorage.getItem('ih_pets')  || '[]');
+
+function initCameraPage() {
+  renderRegistered();
+  loadSettings();
+}
+
+function setMode(mode) {
+  camMode = mode;
+  document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active-btn'));
+  const map = {face:'btnFace', pet:'btnPet', object:'btnObj'};
+  if(map[mode]) document.getElementById(map[mode])?.classList.add('active-btn');
+  const labels = {face:'จำหน้าคน', pet:'จำสัตว์เลี้ยง', object:'วิเคราะห์ภาพทั่วไป'};
+  setResult('เลือกโหมด: ' + (labels[mode]||mode) + ' — กดถ่ายภาพได้เลย', '');
+}
+
+function toggleCamera() {
+  if(cameraOpen) { stopCamera(); return; }
+  startCamera();
+}
+
+async function startCamera() {
+  try {
+    camStream = await navigator.mediaDevices.getUserMedia({
+      video:{ facingMode:'user', width:{ideal:640}, height:{ideal:480} },
+      audio:false
+    });
+    const video = document.getElementById('camVideo');
+    video.srcObject = camStream;
+    document.getElementById('camOverlay').style.display = 'none';
+    document.getElementById('btnCam').textContent = '⏹️ ปิดกล้อง';
+    document.getElementById('btnCam').classList.add('active-btn');
+    document.getElementById('btnCapture').style.display = 'block';
+    document.getElementById('camWrap').classList.add('cam-scanning');
+    cameraOpen = true;
+  } catch(err) {
+    setResult('❌ ไม่สามารถเปิดกล้องได้: ' + err.message, 'warn');
+  }
+}
+
+function stopCamera() {
+  if(camStream) { camStream.getTracks().forEach(t => t.stop()); camStream = null; }
+  const video = document.getElementById('camVideo');
+  video.srcObject = null;
+  document.getElementById('camOverlay').style.display = 'flex';
+  document.getElementById('btnCam').textContent = '📷 เปิดกล้อง';
+  document.getElementById('btnCam').classList.remove('active-btn');
+  document.getElementById('btnCapture').style.display = 'none';
+  document.getElementById('camWrap').classList.remove('cam-scanning');
+  cameraOpen = false;
+}
+
+function captureFrame() {
+  const video = document.getElementById('camVideo');
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth || 640;
+  canvas.height = video.videoHeight || 480;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  return canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+}
+
+async function captureAndAnalyze() {
+  const apiKey = localStorage.getItem('ih_gemini_key');
+  if(!apiKey) {
+    setResult('❌ ยังไม่ได้ใส่ Gemini API Key — ไปที่ ⚙️ ตั้งค่า ก่อนครับ', 'warn');
+    return;
+  }
+  if(!cameraOpen) { setResult('❌ กรุณาเปิดกล้องก่อน', 'warn'); return; }
+
+  setResult('🔍 กำลังวิเคราะห์...', 'loading');
+
+  const base64 = captureFrame();
+  const prompts = {
+    face: buildFacePrompt(),
+    pet:  buildPetPrompt(),
+    object: 'วิเคราะห์ภาพนี้เป็นภาษาไทย บอกว่ามีอะไรในภาพ มีคนหรือสัตว์ไหม ถ้ามีให้อธิบายลักษณะ ตอบสั้นๆ ไม่เกิน 3 บรรทัด'
+  };
+
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    const res = await fetch(url, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        contents:[{ parts:[
+          { text: prompts[camMode] },
+          { inline_data:{ mime_type:'image/jpeg', data:base64 } }
+        ]}],
+        generationConfig:{ temperature:0.1, maxOutputTokens:300 }
+      })
+    });
+    const data = await res.json();
+    if(data.error) { setResult('❌ Gemini Error: ' + data.error.message, 'warn'); return; }
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'ไม่มีผล';
+    setResult(text, 'success');
+    logToSheet('camera', camMode + ': ' + text.substring(0,50));
+    addLog('📷 ' + (camMode==='face'?'จำหน้าคน':camMode==='pet'?'จำสัตว์':'วิเคราะห์ภาพ'), text.substring(0,60));
+  } catch(err) {
+    setResult('❌ เกิดข้อผิดพลาด: ' + err.message, 'warn');
+  }
+}
+
+function buildFacePrompt() {
+  const names = registeredFaces.map(f => `- ${f.name}: ${f.desc}`).join('
+');
+  const base = 'ดูภาพนี้แล้วตอบเป็นภาษาไทย:
+1. มีคนในภาพไหม?
+2. ถ้ามี บอกลักษณะ เพศ อายุโดยประมาณ สีผม
+3. ตอบสั้นๆ ไม่เกิน 3 บรรทัด';
+  if(names) return base + '
+
+บุคคลที่ลงทะเบียนไว้:
+' + names + '
+ถ้าตรงกับลักษณะใครให้บอกชื่อด้วย';
+  return base;
+}
+
+function buildPetPrompt() {
+  const names = registeredPets.map(p => `- ${p.name}: ${p.desc}`).join('
+');
+  const base = 'ดูภาพนี้แล้วตอบเป็นภาษาไทย:
+1. มีสัตว์เลี้ยงในภาพไหม?
+2. ถ้ามี บอกประเภท (สุนัข/แมว) สายพันธุ์โดยประมาณ สี ลักษณะ
+3. ตอบสั้นๆ ไม่เกิน 3 บรรทัด';
+  if(names) return base + '
+
+สัตว์เลี้ยงที่ลงทะเบียนไว้:
+' + names + '
+ถ้าตรงกับใครให้บอกชื่อด้วย';
+  return base;
+}
+
+function registerFace() {
+  if(!cameraOpen) { showToast('❌ กรุณาเปิดกล้องก่อน'); return; }
+  const name = prompt('ชื่อบุคคลนี้คือ?');
+  if(!name) return;
+  const desc = prompt('ลักษณะสั้นๆ เช่น ผู้ชาย อายุ 35 ผมสั้นดำ');
+  if(!desc) return;
+  registeredFaces.push({ name, desc, time: new Date().toLocaleString('th-TH') });
+  localStorage.setItem('ih_faces', JSON.stringify(registeredFaces));
+  renderRegistered();
+  showToast('✅ ลงทะเบียน ' + name + ' แล้ว');
+}
+
+function renderRegistered() {
+  const list = document.getElementById('registeredList');
+  if(!list) return;
+  const all = [
+    ...registeredFaces.map(f => `👤 ${f.name} — ${f.desc}`),
+    ...registeredPets.map(p => `🐾 ${p.name} — ${p.desc}`)
+  ];
+  list.innerHTML = all.length
+    ? all.map(x => `<div style="padding:4px 0;border-bottom:1px solid var(--cream2);font-size:0.78rem;">${x}</div>`).join('')
+    : '<span>ยังไม่มีข้อมูล</span>';
+}
+
+function setResult(text, type) {
+  const el = document.getElementById('camResultText');
+  if(!el) return;
+  el.textContent = text;
+  el.className = 'cam-result-content' + (type ? ' ' + type : '');
+}
+
+// ============================================================
+// ⚙️ SETTINGS
+// ============================================================
+function loadSettings() {
+  const k = localStorage.getItem('ih_gemini_key');
+  const n = localStorage.getItem('ih_home_name');
+  const a = localStorage.getItem('ih_address');
+  const s = localStorage.getItem('ih_sheet_url');
+  if(k) document.getElementById('inputApiKey').value = k;
+  if(n) document.getElementById('inputHomeName').value = n;
+  if(a) document.getElementById('inputAddress').value = a;
+  if(s) document.getElementById('inputSheetUrl').value = s;
+}
+
+function saveApiKey() {
+  const k = document.getElementById('inputApiKey').value.trim();
+  if(!k) { showToast('❌ กรุณาใส่ API Key'); return; }
+  localStorage.setItem('ih_gemini_key', k);
+  showToast('✅ บันทึก API Key แล้ว');
+}
+
+function saveHomeInfo() {
+  localStorage.setItem('ih_home_name', document.getElementById('inputHomeName').value);
+  localStorage.setItem('ih_address', document.getElementById('inputAddress').value);
+  showToast('✅ บันทึกข้อมูลบ้านแล้ว');
+}
+
+function saveSheetUrl() {
+  const url = document.getElementById('inputSheetUrl').value.trim();
+  localStorage.setItem('ih_sheet_url', url);
+  showToast('✅ บันทึก Sheet URL แล้ว');
+}
+
+// ============================================================
+// 📊 LOCAL LOG
+// ============================================================
+let activityLog = JSON.parse(localStorage.getItem('ih_log') || '[]');
+
+function addLog(type, detail) {
+  const now = new Date().toLocaleString('th-TH', {timeZone:'Asia/Bangkok'});
+  activityLog.unshift({ type, detail, time: now });
+  if(activityLog.length > 100) activityLog = activityLog.slice(0,100);
+  localStorage.setItem('ih_log', JSON.stringify(activityLog));
+}
+
+function renderLog() {
+  const list = document.getElementById('logList');
+  if(!list) return;
+  if(!activityLog.length) {
+    list.innerHTML = '<div class="log-empty">ยังไม่มีประวัติ</div>'; return;
+  }
+  list.innerHTML = activityLog.slice(0,50).map(l =>
+    `<div class="log-row">
+      <div><div class="log-detail">${l.type}</div><div class="log-type">${l.detail||''}</div></div>
+      <div class="log-time">${l.time}</div>
+    </div>`
+  ).join('');
+}
+
+function clearLog() {
+  activityLog = [];
+  localStorage.setItem('ih_log', '[]');
+  renderLog();
+  showToast('🗑️ ล้างประวัติแล้ว');
+}
+
+// hook addLog เข้ากับ toggle/scene/voice เดิม
+const _origShowToast = showToast;
+const origToggle2 = toggle;
+function toggle(id) {
+  const d = allDevices.find(x=>x.id===id);
+  origToggle2(id);
+  if(d) addLog(d.on?'✅ เปิด':'⭕ ปิด', d.name);
+}
 </script>
 </body>
 </html>
@@ -452,4 +2299,5 @@ renderDevices();updateEnergy();
   v2.6 - เพิ่ม Voice Command จริง (Web Speech API) + Google Sheet Log
   v2.7 - เชื่อม Apps Script URL จริง
   v2.8 - Optimize สำหรับ Android/iOS เต็มจอ
+  v2.9 - เพิ่ม Face/Pet AI Camera + Settings + Log page
 ========================================== -->
